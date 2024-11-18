@@ -1,0 +1,10 @@
+{
+    "title": "Task Manger",
+    "ar": "Arabic",
+    "AddTask":"Add Task",
+    "addTitle":"Add New Task",
+    "UpdateTitle":"Update Task",
+    "cannotBeEmpty":"This field cannot be empty"
+
+
+}
