@@ -6,6 +6,7 @@ import 'package:plan_manager/core/usecase/base_usecase.dart';
 import 'package:plan_manager/core/utils/enums.dart';
 import 'package:plan_manager/l10n/generated/l10n.dart';
 import 'package:plan_manager/my_plan/domain/entities/plan_entites.dart';
+import 'package:plan_manager/my_plan/domain/usecases/delete_all_plan.dart';
 import 'package:plan_manager/my_plan/domain/usecases/delete_plan.dart';
 import 'package:plan_manager/my_plan/domain/usecases/get_plan_usecase.dart';
 import 'package:plan_manager/my_plan/domain/usecases/insert_plan_usecase.dart';
@@ -17,9 +18,10 @@ part 'plans_state.dart';
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   TaskBloc(
     this.getTasksUseCase,
-    this.getMovieDetailsUseCase,
-    this.deleteTasksUseCase,
+    this.addTaskUseCase,
     this.updateTaskUsecase,
+    this.deleteTasksUseCase,
+    this.deleteAll,
   )
   //  this.getRecommendationUseCase)
   : super(const TaskState()) {
@@ -27,12 +29,14 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<AddTaskEvent>(_addTasks);
     on<UpdateTaskEvent>(_updateTasks);
     on<DeleteTaskEvent>(_deleteTasks);
+    on<DeleteAllEvent>(_deleteAllTasks);
   }
 
-  final InsertTaskUsecase getMovieDetailsUseCase;
+  final InsertTaskUsecase addTaskUseCase;
   final GetTasksUseCase getTasksUseCase;
   final UpdateTaskUsecase updateTaskUsecase;
   final DeleteTaskUsecase deleteTasksUseCase;
+  final DeleteAllTaskUsecase deleteAll;
 
   ///
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -57,8 +61,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   }
 
   FutureOr<void> _addTasks(AddTaskEvent event, Emitter<TaskState> emit) async {
-    final result = await getMovieDetailsUseCase(
-        AddParameters(planEntites: event.planEntites));
+    final result =
+        await addTaskUseCase(AddParameters(planEntites: event.planEntites));
 
     result.fold(
       (l) =>
@@ -86,6 +90,18 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   Future<void> _deleteTasks(
       DeleteTaskEvent event, Emitter<TaskState> emit) async {
     final result = await deleteTasksUseCase(DeleteAddParameters(id: event.id));
+    result.fold(
+      (failure) => emit(
+          state.copyWith(getState: RStates.error, getMessage: failure.message)),
+      (success) async {
+        emit(state.copyWith(getState: RStates.done));
+      },
+    );
+  }
+
+  Future<void> _deleteAllTasks(
+      DeleteAllEvent e, Emitter<TaskState> emit) async {
+    final result = await deleteAll(const NoParameters());
     result.fold(
       (failure) => emit(
           state.copyWith(getState: RStates.error, getMessage: failure.message)),

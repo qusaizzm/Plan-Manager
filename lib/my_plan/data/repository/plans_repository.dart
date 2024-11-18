@@ -53,4 +53,14 @@ class TasksRepository extends BaseTaskRepositoryImp {
       return Left(ServerFailure(failure.errorMessageModel.statusMessage));
     }
   }
+
+  @override
+  Future<Either<Failure, List<TaskModel>>> deleteAllTasks() async {
+    try {
+      final result = await dataSource.deleteAllTasks();
+      return Right(result);
+    } on ServerException catch (failure) {
+      return Left(ServerFailure(failure.errorMessageModel.statusMessage));
+    }
+  }
 }

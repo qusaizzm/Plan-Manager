@@ -19,7 +19,7 @@ class Languages {
 
   static Languages get current {
     assert(_current != null,
-        'No instance of Languages was done. Try to initialize the Languages delegate before accessing Languages.current.');
+        'No instance of Languages was loaded. Try to initialize the Languages delegate before accessing Languages.current.');
     return _current!;
   }
 

@@ -10,4 +10,5 @@ abstract class BaseTaskRepositoryImp {
   Future<Either<Failure, List<TaskModel>>> insertTask(AddParameters plan);
   Future<Either<Failure, List<TaskModel>>> updateTask(UpdateParameters plan);
   Future<Either<Failure, List<TaskModel>>> deleteTask(int id);
+  Future<Either<Failure, List<TaskModel>>> deleteAllTasks();
 }

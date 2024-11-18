@@ -22,6 +22,7 @@ class DailyTaskScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context3) => sl<TaskBloc>()..add(GetTaskEvent()),
+      // create: (context3) => sl<TaskBloc>()..add(DeleteAllEvent()),
       lazy: true,
       child: BlocListener<TaskBloc, TaskState>(
         listener: (context, state) {

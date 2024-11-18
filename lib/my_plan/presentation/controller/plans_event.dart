@@ -32,3 +32,8 @@ class DeleteTaskEvent extends TaskEvent {
   @override
   List<Object> get props => [id];
 }
+
+class DeleteAllEvent extends TaskEvent {
+  @override
+  List<Object> get props => [];
+}

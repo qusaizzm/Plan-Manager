@@ -87,9 +87,8 @@ class AddUpdateTask extends StatelessWidget {
                             final planEntites = TaskEntites(
                               title: taskBloc.addTaskController.text,
                               completed: false,
-                              lastCompletedDate:
-                                  taskBloc.addTaskController.text,
-                              alratDay: [AlertDay.none],
+                              lastCompletedDate: "",
+                              alratDays: [AlertDay.none],
                             );
                             _addTaskCall(context, planEntites);
                           } else {

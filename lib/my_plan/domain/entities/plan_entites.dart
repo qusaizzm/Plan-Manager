@@ -1,11 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:plan_manager/core/utils/enums.dart';
+import 'package:plan_manager/core/utils/get_random_id.dart';
 
 class TaskEntites extends Equatable {
   final int? id;
   final String title;
   final bool completed;
-  final List<AlertDay> alratDay;
+  final List<AlertDay> alratDays;
   final String? lastCompletedDate;
 
   const TaskEntites({
@@ -13,16 +14,23 @@ class TaskEntites extends Equatable {
     required this.title,
     required this.completed,
     this.lastCompletedDate,
-    required this.alratDay,
+    required this.alratDays,
   });
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      'id': id ?? generateRandomId(),
       'title': title,
       'completed': completed ? 1 : 0,
       'lastCompletedDate': lastCompletedDate,
-      'alratDay': alratDay,
+      'alratDays': _alertDaysToString(alratDays),
     };
+  }
+
+  /// Convert the AlertDay list to a string for storage
+  static String _alertDaysToString(List<AlertDay> alertDays) {
+    return alertDays
+        .map((alertDay) => alertDay.toString().split('.').last)
+        .join(',');
   }
 
   @override
@@ -31,6 +39,6 @@ class TaskEntites extends Equatable {
         title,
         completed,
         lastCompletedDate,
-        alratDay,
+        alratDays,
       ];
 }

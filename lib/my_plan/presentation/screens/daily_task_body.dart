@@ -103,7 +103,7 @@ class GetAllTaskBody extends StatelessWidget {
                   title: titleController.text,
                   completed: false,
                   lastCompletedDate: DateTime.now().toString(),
-                  alratDay: [AlertDay.none],
+                  alratDays: [AlertDay.none],
                 );
                 // Use outerContext to access TaskBloc
                 outerContext.read<TaskBloc>().add(UpdateTaskEvent(newTask));
